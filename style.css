@@ -1,43 +1,40 @@
-/* RESET TOTAL PARA QUITAR BARRAS FEAS */
+/* RESET PARA EVITAR BARRAS */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-body, html {
-  width: 100%;
-  height: 100%;
-  overflow: hidden; /* Elimina los sliders feos */
-  background-color: #000;
+body {
+  overflow: hidden;
+  background: #000;
 }
 
 .carousel {
   width: 100vw;
   height: 100vh;
-  position: relative;
 }
 
-/* EL TRACK */
 .track {
   display: flex;
   width: max-content; 
-  gap: 20px; /* 🔑 ESTO DA LA SEPARACIÓN QUE BUSCAS */
+  /* Ajustamos el gap a 0 para que no descuadre el cálculo, 
+     o usamos márgenes dentro del slide */
   animation: scroll 20s linear infinite;
 }
 
-/* CADA SLIDE */
 .slide {
   position: relative;
-  width: 50vw; /* Dos imágenes por pantalla */
+  width: 50vw; /* 2 imágenes por pantalla */
   height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  /* 🔑 Usamos padding en lugar de gap para separar sin romper la animación */
+  padding: 0 10px; 
 }
 
-/* FONDO DINÁMICO */
 .slide::before {
   content: "";
   position: absolute;
@@ -45,28 +42,26 @@ body, html {
   background-image: var(--bg);
   background-size: cover;
   background-position: center;
-  filter: blur(60px) brightness(0.5);
-  transform: scale(1.2);
+  filter: blur(60px) brightness(0.4);
+  transform: scale(1.1);
   z-index: 0;
 }
 
-/* LA IMAGEN/GIF */
 .slide img {
-  height: 70vh;
+  height: 75vh;
   width: auto;
   z-index: 1;
   position: relative;
-  border-radius: 15px; /* Opcional: bordes suaves */
 }
 
-/* 🔑 ANIMACIÓN SIN HUECO NEGRO */
+/* 🔑 EL TRUCO DEL BUCLE INFINITO */
 @keyframes scroll {
   0% {
     transform: translateX(0);
   }
   100% {
-    /* Si tienes 5 fotos originales, se mueve el ancho de esas 5 + el gap */
-    /* El truco es que el final del track sea idéntico al inicio */
-    transform: translateX(calc(-50% - 10px)); 
+    /* Movemos el track exactamente el 50% de su ancho total */
+    /* Esto funciona porque la segunda mitad es copia fiel de la primera */
+    transform: translateX(-50%);
   }
 }
