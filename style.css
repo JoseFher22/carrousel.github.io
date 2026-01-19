@@ -5,28 +5,27 @@
   overflow: hidden;
   background-color: #000;
   margin: 0;
-  padding: 0;
 }
 
-/* EL "RIEL" QUE SE MUEVE */
+/* EL RIEL QUE SE MUEVE */
 .track {
   display: flex;
-  width: max-content; /* Se ajusta al ancho de todas las imágenes juntas */
+  width: max-content; /* 🔑 Obliga a las imágenes a ponerse en fila */
   animation: scroll 20s linear infinite;
 }
 
-/* CADA SLIDE (OCUPA MEDIA PANTALLA) */
+/* CADA SLIDE */
 .slide {
   position: relative;
-  flex: 0 0 50vw; /* 🔑 50vw = 2 imágenes por pantalla */
+  width: 50vw; /* 🔑 Exactamente la mitad de la pantalla */
+  flex-shrink: 0; /* Evita que las imágenes se aplasten */
   height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0; /* Eliminamos cualquier espacio lateral */
 }
 
-/* EL FONDO CON BLUR */
+/* EL FONDO BORROSO */
 .slide::before {
   content: "";
   position: absolute;
@@ -34,29 +33,23 @@
   background-image: var(--bg);
   background-size: cover;
   background-position: center;
-  filter: blur(50px) brightness(0.6);
-  transform: scale(1.1); /* Evita bordes blancos por el blur */
+  filter: blur(60px) brightness(0.5);
+  transform: scale(1.2); /* Para que el blur no deje bordes blancos */
   z-index: 0;
 }
 
-/* LA IMAGEN PRINCIPAL */
+/* LA IMAGEN (EL GATO DE SCRATCH) */
 .slide img {
-  height: 75vh;
+  position: relative;
+  height: 70vh; /* Tamaño grande pero manejable */
   width: auto;
-  max-width: 90%;
-  object-fit: contain;
   z-index: 1;
-  transition: transform 0.4s ease;
-  pointer-events: none; /* Evita que se pueda arrastrar la imagen por error */
+  /* Eliminamos cualquier filtro que pueda mover la imagen */
+  display: block; 
 }
 
-/* ANIMACIÓN */
+/* ANIMACIÓN AJUSTADA */
 @keyframes scroll {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    /* Como tienes 10 imágenes (5 + 5), al llegar al 50% el bucle es perfecto */
-    transform: translateX(-50%);
-  }
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); } /* Se mueve la mitad del total (los originales) */
 }
