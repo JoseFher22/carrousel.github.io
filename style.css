@@ -7,33 +7,37 @@
 body, html {
   width: 100%;
   height: 100%;
-  overflow: hidden; /* 🔑 Mata las barras de desplazamiento (sliders feos) */
+  overflow: hidden; /* Esto quita las barras de desplazamiento */
   background-color: #000;
 }
 
 .carousel {
   width: 100vw;
   height: 100vh;
-  position: relative;
+  display: flex;
+  align-items: center;
 }
 
 .track {
   display: flex;
-  width: max-content; /* 🔑 Alinea todo en una fila infinita */
+  flex-direction: row; /* Fuerza la dirección horizontal */
+  flex-wrap: nowrap;   /* 🔑 PROHIBE que las imágenes se vayan hacia abajo */
+  width: max-content;  /* El ancho será el de todas las fotos juntas */
   animation: scroll 15s linear infinite;
 }
 
 .slide {
   position: relative;
-  flex: 0 0 50vw; /* 🔑 Siempre 2 imágenes visibles */
+  flex: 0 0 50vw; /* 🔑 Cada imagen ocupa media pantalla */
+  width: 50vw;
   height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 30px; /* 🔑 La separación que querías entre imágenes */
+  padding: 0 30px; /* Espacio entre fotos */
 }
 
-/* FONDO DIFUMINADO */
+/* Fondo Borroso */
 .slide::before {
   content: "";
   position: absolute;
@@ -41,22 +45,29 @@ body, html {
   background-image: var(--bg);
   background-size: cover;
   background-position: center;
-  filter: blur(50px) brightness(0.4);
-  transform: scale(1.1);
+  filter: blur(60px) brightness(0.3);
   z-index: 0;
 }
 
-/* TU GIF O IMAGEN */
+/* La imagen (Tigre o Gato) */
 .slide img {
-  height: 70vh;
+  max-height: 65vh;
+  max-width: 90%;
   width: auto;
+  height: auto;
+  object-fit: contain;
   z-index: 1;
   position: relative;
-  filter: drop-shadow(0 0 20px rgba(0,0,0,0.5));
 }
 
-/* 🚀 ANIMACIÓN SIN SALTOS NI HUECOS */
+/* 🚀 ANIMACIÓN SIN SALTOS */
 @keyframes scroll {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); } /* Salta al inicio al llegar a la mitad */
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    /* Como cada bloque de (1.gif + image.png) mide 100vw,
+       al movernos -200vw el salto al inicio es invisible. */
+    transform: translateX(-200vw);
+  }
 }
