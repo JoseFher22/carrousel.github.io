@@ -1,38 +1,46 @@
-.wrap {
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #111; /* Fondo oscuro para que se vea pro */
+  overflow: hidden;
+}
+
+.carrusel-pantalla {
   width: 100vw;
   height: 100vh;
-  display: block; /* Cambiamos de flex a block para evitar errores de cálculo */
+  display: flex;
+  align-items: center;
   overflow: hidden;
-  background: #000;
   position: relative;
 }
 
-.mover {
+.riel-movil {
   display: flex;
-  /* Forzamos un ancho gigantesco para que Brave vea que HAY espacio para moverse */
-  width: 400vw; 
-  height: 100%;
-  animation: corre 15s linear infinite !important; /* El !important obliga a Brave */
-  will-change: transform;
+  width: 5000px; /* Ancho exagerado para que Brave no lo bloquee */
+  /* Esta es la clave: animamos el margen izquierdo */
+  animation: empuje 10s linear infinite !important;
 }
 
-.mover img {
-  height: 70vh;
+.foto {
+  height: 60vh; /* Tamaño controlado */
   width: auto;
-  margin: 0 100px;
+  margin: 0 40px;
   flex-shrink: 0;
-  /* Esto evita que la imagen parpadee al moverse */
-  backface-visibility: hidden;
-  -webkit-perspective: 1000;
+  /* Forzamos renderizado de video */
+  transform: translateZ(0);
 }
 
-/* Usamos porcentajes exactos para que no haya duda */
-@keyframes corre {
-  0% { 
-    transform: translate3d(0, 0, 0); 
+/* Usamos MARGIN-LEFT en lugar de transform para "despertar" a Brave */
+@keyframes empuje {
+  0% {
+    margin-left: 0;
   }
-  100% { 
-    /* Movemos el 50% del contenedor hacia la izquierda */
-    transform: translate3d(-50%, 0, 0); 
+  100% {
+    /* Ajustamos esto al ancho de dos imágenes + márgenes */
+    margin-left: -800px; 
   }
 }
