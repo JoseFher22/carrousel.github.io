@@ -4,31 +4,36 @@
   box-sizing: border-box;
 }
 
-body {
+body, html {
+  width: 100%;
+  height: 100%;
+  overflow: hidden; /* 🔑 Mata las barras de desplazamiento (sliders feos) */
+  background-color: #000;
+}
+
+.carousel {
   width: 100vw;
   height: 100vh;
-  overflow: hidden; /* Adiós barras de desplazamiento */
-  background: #000;
+  position: relative;
 }
 
 .track {
   display: flex;
-  width: max-content;
-  /* 'linear' mantiene la velocidad constante para que no haya tirones */
-  animation: scroll 15s linear infinite; 
+  width: max-content; /* 🔑 Alinea todo en una fila infinita */
+  animation: scroll 15s linear infinite;
 }
 
 .slide {
-  flex: 0 0 50vw; /* 2 imágenes por pantalla */
+  position: relative;
+  flex: 0 0 50vw; /* 🔑 Siempre 2 imágenes visibles */
   height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
-  padding: 0 40px; /* Separación entre el gato y el tigre */
+  padding: 0 30px; /* 🔑 La separación que querías entre imágenes */
 }
 
-/* Fondo con efecto aurora */
+/* FONDO DIFUMINADO */
 .slide::before {
   content: "";
   position: absolute;
@@ -36,31 +41,22 @@ body {
   background-image: var(--bg);
   background-size: cover;
   background-position: center;
-  filter: blur(80px) brightness(0.3);
+  filter: blur(50px) brightness(0.4);
+  transform: scale(1.1);
   z-index: 0;
 }
 
-/* 🔑 EL ARREGLO PARA QUE NO SE VEA GIGANTE */
+/* TU GIF O IMAGEN */
 .slide img {
-  max-height: 60vh; /* Altura máxima controlada */
-  max-width: 85%;   /* Ancho máximo para que no se peguen */
+  height: 70vh;
   width: auto;
-  height: auto;
-  object-fit: contain; /* No deforma la imagen */
   z-index: 1;
   position: relative;
-  filter: drop-shadow(0 10px 40px rgba(0,0,0,0.8));
+  filter: drop-shadow(0 0 20px rgba(0,0,0,0.5));
 }
 
-/* 🚀 BUCLE INFINITO SIN "GOLPES" */
+/* 🚀 ANIMACIÓN SIN SALTOS NI HUECOS */
 @keyframes scroll {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    /* Como cada bloque (Gato + Tigre) mide 100vw:
-       Al llegar a -200vw el carrusel se resetea. 
-       Como el tercer bloque es igual al primero, el salto es invisible. */
-    transform: translateX(-200vw);
-  }
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); } /* Salta al inicio al llegar a la mitad */
 }
