@@ -1,33 +1,38 @@
-/* Limpieza total */
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { background: #000; overflow: hidden; }
-
 .wrap {
   width: 100vw;
   height: 100vh;
-  display: flex;
-  align-items: center;
+  display: block; /* Cambiamos de flex a block para evitar errores de cálculo */
   overflow: hidden;
+  background: #000;
+  position: relative;
 }
 
 .mover {
   display: flex;
-  width: max-content;
-  /* Animación súper simple */
-  animation: corre 15s linear infinite;
+  /* Forzamos un ancho gigantesco para que Brave vea que HAY espacio para moverse */
+  width: 400vw; 
+  height: 100%;
+  animation: corre 15s linear infinite !important; /* El !important obliga a Brave */
+  will-change: transform;
 }
 
 .mover img {
-  height: 70vh; /* Tamaño fijo para que no haya dudas */
+  height: 70vh;
   width: auto;
-  margin: 0 50px; /* La separación que querías */
+  margin: 0 100px;
   flex-shrink: 0;
-  /* Aceleración de video para Brave */
-  transform: translateZ(0);
+  /* Esto evita que la imagen parpadee al moverse */
+  backface-visibility: hidden;
+  -webkit-perspective: 1000;
 }
 
+/* Usamos porcentajes exactos para que no haya duda */
 @keyframes corre {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); } /* Se mueve la mitad y reinicia */
+  0% { 
+    transform: translate3d(0, 0, 0); 
+  }
+  100% { 
+    /* Movemos el 50% del contenedor hacia la izquierda */
+    transform: translate3d(-50%, 0, 0); 
+  }
 }
-  
