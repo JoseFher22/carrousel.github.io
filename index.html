@@ -1,13 +1,80 @@
-<div class="carrusel-pantalla">
-  <div class="riel-movil">
-    <img src="1.gif" class="foto">
-    <img src="image.png" class="foto">
-    <img src="1.gif" class="foto">
-    <img src="image.png" class="foto">
-    <img src="1.gif" class="foto">
-    <img src="image.png" class="foto">
-  </div>
-</div>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Carrusel JoseFher</title>
+    <style>
+        /* CSS: DISEÑO Y POSICIÓN */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { 
+            background: #000; 
+            overflow: hidden; 
+            display: flex; 
+            align-items: center; 
+            height: 100vh; 
+        }
+
+        #contenedor {
+            width: 100vw;
+            overflow: hidden;
+            position: relative;
+        }
+
+        #riel {
+            display: flex;
+            width: max-content;
+            will-change: transform;
+        }
+
+        #riel img {
+            height: 65vh; /* Tamaño ideal para que no se corte */
+            width: auto;
+            margin: 0 60px; /* Espacio entre fotos */
+            flex-shrink: 0;
+            filter: drop-shadow(0 0 30px rgba(255,255,255,0.1));
+        }
+    </style>
+</head>
+<body>
+
+    <div id="contenedor">
+        <div id="riel">
+            <img src="1.gif">
+            <img src="image.png">
+            <img src="1.gif">
+            <img src="image.png">
+            <img src="1.gif">
+            <img src="image.png">
+            <img src="1.gif">
+            <img src="image.png">
+        </div>
+    </div>
+
+    <script>
+        // JAVASCRIPT: EL MOTOR DE MOVIMIENTO
+        const riel = document.getElementById('riel');
+        let x = 0;
+
+        function animar() {
+            x -= 2; // VELOCIDAD: Sube a 5 para más rápido, baja a 1 para lento.
+            
+            // Si el riel se ha movido mucho, vuelve al inicio suavemente
+            // El número -1500 depende del ancho de tus imágenes
+            if (x <= -2000) { 
+                x = 0; 
+            }
+            
+            riel.style.transform = `translateX(${x}px)`;
+            requestAnimationFrame(animar);
+        }
+
+        // Iniciar el movimiento cuando cargue la página
+        window.onload = animar;
+    </script>
+</body>
+</html>
+
 
 
 
