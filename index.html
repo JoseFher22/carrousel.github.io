@@ -2,16 +2,24 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Carrusel JoseFher Pro</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrusel JoseFher</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        /* CONFIGURACIÓN BASE */
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
 
         body { 
-            background: #000; 
+            /* Tu color azul #4e87ff con un degradado para que se vea pro */
+            background: radial-gradient(circle, #4e87ff 0%, #2a5bbd 100%); 
             overflow: hidden; 
             height: 100vh; 
             display: flex; 
             align-items: center; 
+            font-family: sans-serif;
         }
 
         .window {
@@ -23,57 +31,42 @@
         .track {
             display: flex;
             width: max-content;
-            animation: scroll 20s linear infinite;
+            animation: scroll-infinito 20s linear infinite;
         }
 
-        /* CONTENEDOR DE IMAGEN (Para el fondo de color) */
-        .item {
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 50vw; /* Dos imágenes por pantalla */
-            height: 100vh;
-            flex-shrink: 0;
-        }
-
-        /* 1. EL FONDO DINÁMICO: Crea un resplandor del color de la imagen */
-        .item::before {
-            content: "";
-            position: absolute;
-            width: 80%;
-            height: 80%;
-            background-image: var(--bg);
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
-            filter: blur(100px) opacity(0.5); /* Esto crea el color de fondo */
-            z-index: -1;
-        }
-
-        /* 2. LA IMAGEN PRINCIPAL */
-        .item img {
-            height: 60vh;
-            width: auto;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            cursor: pointer;
-            filter: drop-shadow(0 0 20px rgba(0,0,0,0.5));
-        }
-
-        /* 3. ZOOM AL PASAR EL RATÓN */
-        .item img:hover {
-            transform: scale(1.25);
-            filter: drop-shadow(0 0 50px rgba(255,255,255,0.2));
-        }
-
-        /* 4. PAUSA TOTAL */
+        /* PAUSA AL PASAR EL RATÓN */
         .track:hover {
             animation-play-state: paused;
         }
 
-        @keyframes scroll {
+        .item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 60px; /* Espacio entre imágenes */
+            flex-shrink: 0;
+        }
+
+        .item img {
+            height: 60vh;
+            width: auto;
+            cursor: pointer;
+            /* Suavidad para el zoom */
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            /* Sombra para que resalten sobre el azul */
+            filter: drop-shadow(0 15px 35px rgba(0,0,0,0.2));
+        }
+
+        /* EFECTO DE AGRANDAR IMAGEN */
+        .item img:hover {
+            transform: scale(1.15);
+            filter: drop-shadow(0 20px 45px rgba(0,0,0,0.3));
+        }
+
+        /* ANIMACIÓN */
+        @keyframes scroll-infinito {
             0% { transform: translateX(0); }
-            100% { transform: translateX(-200vw); } /* Ajustado para el nuevo ancho */
+            100% { transform: translateX(-50%); }
         }
     </style>
 </head>
@@ -81,12 +74,12 @@
 
     <div class="window">
         <div class="track">
-            <div class="item" style="--bg: url('1.gif')"><img src="1.gif"></div>
-            <div class="item" style="--bg: url('image.png')"><img src="image.png"></div>
-            <div class="item" style="--bg: url('1.gif')"><img src="1.gif"></div>
-            <div class="item" style="--bg: url('image.png')"><img src="image.png"></div>
-            <div class="item" style="--bg: url('1.gif')"><img src="1.gif"></div>
-            <div class="item" style="--bg: url('image.png')"><img src="image.png"></div>
+            <div class="item"><img src="1.gif"></div>
+            <div class="item"><img src="image.png"></div>
+            <div class="item"><img src="1.gif"></div>
+            <div class="item"><img src="image.png"></div>
+            <div class="item"><img src="1.gif"></div>
+            <div class="item"><img src="image.png"></div>
         </div>
     </div>
 
