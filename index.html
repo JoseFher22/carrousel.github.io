@@ -2,79 +2,93 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Carrusel JoseFher</title>
+    <title>Carrusel JoseFher Pro</title>
     <style>
-        /* CSS: DISEÑO Y POSICIÓN */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
+
         body { 
             background: #000; 
             overflow: hidden; 
+            height: 100vh; 
             display: flex; 
             align-items: center; 
-            height: 100vh; 
         }
 
-        #contenedor {
+        .window {
             width: 100vw;
             overflow: hidden;
             position: relative;
         }
 
-        #riel {
+        .track {
             display: flex;
             width: max-content;
-            will-change: transform;
+            animation: scroll 20s linear infinite;
         }
 
-        #riel img {
-            height: 65vh; /* Tamaño ideal para que no se corte */
-            width: auto;
-            margin: 0 60px; /* Espacio entre fotos */
+        /* CONTENEDOR DE IMAGEN (Para el fondo de color) */
+        .item {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50vw; /* Dos imágenes por pantalla */
+            height: 100vh;
             flex-shrink: 0;
-            filter: drop-shadow(0 0 30px rgba(255,255,255,0.1));
+        }
+
+        /* 1. EL FONDO DINÁMICO: Crea un resplandor del color de la imagen */
+        .item::before {
+            content: "";
+            position: absolute;
+            width: 80%;
+            height: 80%;
+            background-image: var(--bg);
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            filter: blur(100px) opacity(0.5); /* Esto crea el color de fondo */
+            z-index: -1;
+        }
+
+        /* 2. LA IMAGEN PRINCIPAL */
+        .item img {
+            height: 60vh;
+            width: auto;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            filter: drop-shadow(0 0 20px rgba(0,0,0,0.5));
+        }
+
+        /* 3. ZOOM AL PASAR EL RATÓN */
+        .item img:hover {
+            transform: scale(1.25);
+            filter: drop-shadow(0 0 50px rgba(255,255,255,0.2));
+        }
+
+        /* 4. PAUSA TOTAL */
+        .track:hover {
+            animation-play-state: paused;
+        }
+
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-200vw); } /* Ajustado para el nuevo ancho */
         }
     </style>
 </head>
 <body>
 
-    <div id="contenedor">
-        <div id="riel">
-            <img src="1.gif">
-            <img src="image.png">
-            <img src="1.gif">
-            <img src="image.png">
-            <img src="1.gif">
-            <img src="image.png">
-            <img src="1.gif">
-            <img src="image.png">
+    <div class="window">
+        <div class="track">
+            <div class="item" style="--bg: url('1.gif')"><img src="1.gif"></div>
+            <div class="item" style="--bg: url('image.png')"><img src="image.png"></div>
+            <div class="item" style="--bg: url('1.gif')"><img src="1.gif"></div>
+            <div class="item" style="--bg: url('image.png')"><img src="image.png"></div>
+            <div class="item" style="--bg: url('1.gif')"><img src="1.gif"></div>
+            <div class="item" style="--bg: url('image.png')"><img src="image.png"></div>
         </div>
     </div>
 
-    <script>
-        // JAVASCRIPT: EL MOTOR DE MOVIMIENTO
-        const riel = document.getElementById('riel');
-        let x = 0;
-
-        function animar() {
-            x -= 2; // VELOCIDAD: Sube a 5 para más rápido, baja a 1 para lento.
-            
-            // Si el riel se ha movido mucho, vuelve al inicio suavemente
-            // El número -1500 depende del ancho de tus imágenes
-            if (x <= -2000) { 
-                x = 0; 
-            }
-            
-            riel.style.transform = `translateX(${x}px)`;
-            requestAnimationFrame(animar);
-        }
-
-        // Iniciar el movimiento cuando cargue la página
-        window.onload = animar;
-    </script>
 </body>
 </html>
-
-
-
-
